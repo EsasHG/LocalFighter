@@ -26,6 +26,19 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+
+	UPROPERTY(VisibleAnywhere)
+	class UPaperSpriteComponent* Sprite = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		class UFloatingPawnMovement* MovementComponent = nullptr;
+	
+
+	void MoveUp(float AxisValue);
+
+	void MoveRight(float AxisValue);
+
 	
 	
 };
