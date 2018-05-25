@@ -15,6 +15,9 @@ ADot::ADot()
 	RootComponent = Sprite;
 	
 	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>("MovementComponent");
+
+	MovementComponent->Acceleration = 400;
+	MovementComponent->TurningBoost = 1000;
 }
 
 // Called when the game starts or when spawned
@@ -28,7 +31,7 @@ void ADot::BeginPlay()
 void ADot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	MovementComponent->AddInputVector((Direction.GetClampedToMaxSize(1) * Speed * DeltaTime));
 }
 
 // Called to bind functionality to input
@@ -36,18 +39,18 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveRight", this, &ADot::MoveUp);
-	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::MoveRight);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ADot::MoveRight);
+	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::MoveUp);
 }
 
-void ADot::MoveUp(float AxisValue)
+void ADot::MoveUp(float Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("MOVEUP runs"))
-
+	Direction.X = Value;
 }
 
-void ADot::MoveRight(float AxisValue)
+void ADot::MoveRight(float Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("MOVERIGHT runs"))
+
+	Direction.Y = Value;
 
 }

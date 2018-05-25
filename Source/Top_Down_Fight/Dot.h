@@ -32,12 +32,16 @@ private:
 	class UPaperSpriteComponent* Sprite = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-		class UFloatingPawnMovement* MovementComponent = nullptr;
+	class UFloatingPawnMovement* MovementComponent = nullptr;
 	
+	void MoveUp(float Value);
 
-	void MoveUp(float AxisValue);
+	void MoveRight(float Value);
 
-	void MoveRight(float AxisValue);
+	FVector Direction = FVector(0);
+
+	UPROPERTY(EditDefaultsOnly)
+	float Speed = 1000;
 
 	
 	
