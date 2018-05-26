@@ -33,12 +33,19 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* MovementComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+	class USphereComponent* Sphere = nullptr;
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	void MoveUp(float Value);
 
 	void MoveRight(float Value);
 
 	FVector Direction = FVector(0);
+	FVector InternalVelocity = FVector(0);
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
