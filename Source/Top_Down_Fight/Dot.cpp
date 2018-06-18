@@ -26,7 +26,12 @@ ADot::ADot()
 	MovementComponent->Acceleration = 1200;
 	MovementComponent->Deceleration = 1600;
 	MovementComponent->TurningBoost = 5;
+	MovementComponent->
 
+
+	Sphere->SetNotifyRigidBodyCollision(true);
+	Sphere->BodyInstance.SetCollisionProfileName("BlockAllDynamic");
+	Sphere->OnComponentHit.AddDynamic(this, &ADot::OnHit);
 }
 
 // Called when the game starts or when spawned
@@ -34,7 +39,8 @@ void ADot::BeginPlay()
 {
 	Super::BeginPlay();
 	Sprite->AddWorldRotation(FQuat(FRotator(0, 0, 90)));
-	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ADot::OnOverlapBegin);
+
+	//Sphere->OnComponentBeginOverlap.AddDynamic(this, &ADot::OnOverlapBegin);
 }
 
 // Called every frame
@@ -43,8 +49,6 @@ void ADot::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	InternalVelocity = (Direction.GetClampedToMaxSize(1) * Speed * DeltaTime);
 	MovementComponent->AddInputVector(InternalVelocity);
-	MovementComponent->Velocity
-
 }
 
 // Called to bind functionality to input
@@ -56,15 +60,22 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::MoveUp);
 }
 
-void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+void ADot::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	InternalVelocity = -InternalVelocity;
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Begins"));
+	UE_LOG(LogTemp, Warning, TEXT("Hit event fired!"));
+
+	if (!OtherActor) { return; }
+	auto OtherPlayer = Cast<ADot>(OtherActor);
+	if (OtherPlayer)
+	{
+
+	}
 }
 
 void ADot::MoveUp(float Value)
 {
 	Direction.X = Value;
+	
 }
 
 void ADot::MoveRight(float Value)
@@ -72,4 +83,9 @@ void ADot::MoveRight(float Value)
 
 	Direction.Y = Value;
 
+}
+
+void ADot::SetVelocity(FVector InVelocity)
+{
+	MovementComponent->Velocity = InVelocity;
 }
