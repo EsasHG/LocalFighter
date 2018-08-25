@@ -4,7 +4,7 @@
 #include "Components/InputComponent.h"
 #include "PaperSpriteComponent.h"
 #include "Components/SphereComponent.h"
-#include "GameFramework/FloatingPawnMovement.h"
+#include "MovementComp.h"
 
 
 // Sets default values
@@ -20,12 +20,15 @@ ADot::ADot()
 	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>("Sprite");
 	Sprite->SetupAttachment(Sphere);
 
-	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>("MovementComponent");
+	MovementComponent = CreateDefaultSubobject<UMovementComp>("MovementComp");
 
-	MovementComponent->MaxSpeed = 2000;
-	MovementComponent->Acceleration = 1200;
-	MovementComponent->Deceleration = 1600;
-	MovementComponent->TurningBoost = 5;
+	if (MovementComponent) 
+	{
+		MovementComponent->MaxSpeed = 2000;
+		MovementComponent->Acceleration = 1200;
+		MovementComponent->Deceleration = 1600;
+		MovementComponent->TurningBoost = 5;
+	}
 
 }
 
@@ -40,9 +43,9 @@ void ADot::BeginPlay()
 // Called every frame
 void ADot::Tick(float DeltaTime)
 {
+	
 	Super::Tick(DeltaTime);
-	InternalVelocity = (Direction.GetClampedToMaxSize(1) * Speed * DeltaTime);
-	MovementComponent->AddInputVector(InternalVelocity);
+	
 
 }
 
@@ -51,22 +54,24 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveRight", this, &ADot::MoveRight);
-	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::MoveUp);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ADot::GetInputRight);
+	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::GetInputUp);
+
+
 }
 
 void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	InternalVelocity = -InternalVelocity;
 	UE_LOG(LogTemp, Warning, TEXT("Overlap Begins"));
 }
 
-void ADot::MoveUp(float Value)
+void ADot::GetInputUp(float Value)
 {
+
 	Direction.X = Value;
 }
 
-void ADot::MoveRight(float Value)
+void ADot::GetInputRight(float Value)
 {
 
 	Direction.Y = Value;

@@ -26,13 +26,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	FVector GetDirection() { return Direction; }
 private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* Sprite = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	class UFloatingPawnMovement* MovementComponent = nullptr;
+	class UMovementComp* MovementComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere = nullptr;
@@ -40,12 +42,11 @@ private:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
-	void MoveUp(float Value);
+	void GetInputUp(float Value);
 
-	void MoveRight(float Value);
+	void GetInputRight(float Value);
 
 	FVector Direction = FVector(0);
-	FVector InternalVelocity = FVector(0);
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
