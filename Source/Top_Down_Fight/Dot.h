@@ -26,29 +26,25 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void SetVelocity(FVector InVelocity);
-
-	UPROPERTY(BlueprintReadWrite)
-		class UFloatingPawnMovement* MovementComponent = nullptr;
-
 private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* Sprite = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
+	class UFloatingPawnMovement* MovementComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere = nullptr;
 
 	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	void MoveUp(float Value);
 
 	void MoveRight(float Value);
 
 	FVector Direction = FVector(0);
-
-	// can be deleted and code rewritten.
 	FVector InternalVelocity = FVector(0);
 
 	UPROPERTY(EditDefaultsOnly)
