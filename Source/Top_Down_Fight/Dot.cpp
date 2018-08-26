@@ -23,6 +23,9 @@ ADot::ADot()
 	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>("Sprite");
 	Sprite->SetupAttachment(Sphere);
 
+	GunSprite = CreateDefaultSubobject<UPaperSpriteComponent>("GunSprite");
+	GunSprite->SetupAttachment(Sprite);
+
 	MovementComponent = CreateDefaultSubobject<UMovementComp>("MovementComp");
 }
 
@@ -30,14 +33,18 @@ ADot::ADot()
 void ADot::BeginPlay()
 {
 	Super::BeginPlay();
-	Sprite->AddWorldRotation(FQuat(FRotator(0, 0, 90)));
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ADot::OnOverlapBegin);
 }
 
 // Called every frame
 void ADot::Tick(float DeltaTime)
 {
-	
+	if (GunSprite)
+	{
+		//FVector(ShootDirection.X*ShootDirection.X, -1, ShootDirection.Y*ShootDirection.Y) * 300
+		ShootDirection.Normalize();
+		GunSprite->SetRelativeLocation(FVector(ShootDirection.X,-1, ShootDirection.Y)*300);
+	}
 	Super::Tick(DeltaTime);
 	if (MovementComponent)
 	{
@@ -68,7 +75,8 @@ void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 void ADot::Shoot()
 {
 
-	AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation(), GetActorRotation() + FRotator(0, 0, 90));
+	AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(),0) * 100 , GetActorRotation() + FRotator(0, 0, 90));
+	ShootDirection.Normalize();
 	NewBullet->SetDirection(ShootDirection);
 
 
@@ -79,7 +87,6 @@ void ADot::Shoot()
 
 void ADot::GetInputUp(float Value)
 {
-
 	Direction.X = Value;
 }
 

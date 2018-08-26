@@ -24,6 +24,6 @@ void AProjectile::BeginPlay()
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	SetActorLocation(GetActorLocation() +FVector(BulletDirection,0) * DeltaTime*BulletSpeed);
 }
 
