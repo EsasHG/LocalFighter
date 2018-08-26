@@ -14,8 +14,7 @@ class TOP_DOWN_FIGHT_API AProjectile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
-
-
+	void SetDirection(FVector2D Value) { BulletDirection = Value.GetSafeNormal(); }
 
 protected:
 	// Called when the game starts or when spawned

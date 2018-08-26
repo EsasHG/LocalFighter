@@ -67,10 +67,9 @@ void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 
 void ADot::Shoot()
 {
-	
-	UE_LOG(LogTemp, Warning, TEXT("Shooting! %f, %f"), ShootDirection.X, ShootDirection.Y);
-	
-	AProjectile* Bulletd = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation(), GetActorRotation() + FRotator(0, 0, 90));
+
+	AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation(), GetActorRotation() + FRotator(0, 0, 90));
+	NewBullet->SetDirection(ShootDirection);
 
 
 
