@@ -21,15 +21,6 @@ ADot::ADot()
 	Sprite->SetupAttachment(Sphere);
 
 	MovementComponent = CreateDefaultSubobject<UMovementComp>("MovementComp");
-
-	if (MovementComponent) 
-	{
-		MovementComponent->MaxSpeed = 2000;
-		MovementComponent->Acceleration = 1200;
-		MovementComponent->Deceleration = 1600;
-		MovementComponent->TurningBoost = 5;
-	}
-
 }
 
 // Called when the game starts or when spawned
@@ -45,7 +36,10 @@ void ADot::Tick(float DeltaTime)
 {
 	
 	Super::Tick(DeltaTime);
-	
+	if (MovementComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("cry Begins"));
+	}
 
 }
 

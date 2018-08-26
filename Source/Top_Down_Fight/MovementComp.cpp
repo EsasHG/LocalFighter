@@ -11,8 +11,8 @@ UMovementComp::UMovementComp()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	UE_LOG(LogTemp, Warning, TEXT("MovementComp Created!"))
+		
+	UE_LOG(LogTemp, Warning, TEXT("MovementComp Created!"));
 	// ...
 }
 
@@ -34,7 +34,7 @@ void UMovementComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	MoveActor(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("Moving actor!"))
+
 	
 	// ...
 }
@@ -43,10 +43,7 @@ void UMovementComp::MoveActor(float DeltaTime)
 {
 	if (DotToMove)
 	{
-		GetInputVector();
-		UE_LOG(LogTemp, Warning, TEXT("Sucessfull cast to Dot! %f"), InputVector.X)
-		FVector Velocity = CalculateVelocity();
-		DotToMove->SetActorLocation(DotToMove->GetActorLocation() + (Velocity*Acceleration*DeltaTime), true);
+		DotToMove->SetActorLocation(DotToMove->GetActorLocation() + FVector(CalculateVelocity() *DeltaTime, 0), true);
 		//CurrSpeed = Velocity.Size();
 	}
 }
@@ -55,15 +52,40 @@ void UMovementComp::GetInputVector()
 {
 	if (DotToMove)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Got input vector! %f"), InputVector.X)
-		InputVector = DotToMove->GetDirection().GetClampedToMaxSize(1);
-		//InputVector = FVector(x, y, z).GetClampedToMaxSize(1);
+		InputVector = DotToMove->GetDirection().ClampAxes(-1,1);
 	}
 }
 
-FVector UMovementComp::CalculateVelocity()
+FVector2D UMovementComp::CalculateVelocity()
 {
+	GetInputVector();
 
-	return (InputVector);
+	FVector2D Velocity;
 
+	//if turn
+	if ((InputVector != LastInputVector) && InputVector != FVector2D(0, 0) && (LastInputVector != FVector2D(0, 0)))
+	{
+			UE_LOG(LogTemp, Warning, TEXT("Turning! %f"), abs(InputVector.Size()));
+			CurrSpeed = CurrSpeed/2;
+			Velocity = InputVector * CurrSpeed;
+			LastInputVector = InputVector;
+		
+	}
+	else if ((CurrSpeed <= MaxSpeed) && (InputVector != FVector2D(0, 0)))
+	{
+		//continiue on path
+		CurrSpeed += Acceleration;
+
+		Velocity = InputVector * CurrSpeed;
+		LastInputVector = InputVector;
+	}
+	else
+	{
+		if (CurrSpeed > 0)
+		{
+			CurrSpeed -= Acceleration;
+		}
+		Velocity = LastInputVector * CurrSpeed;
+	}
+	return Velocity;
 }

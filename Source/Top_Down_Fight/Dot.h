@@ -26,15 +26,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class UMovementComp* MovementComponent = nullptr;
 
-	FVector GetDirection() { return Direction; }
+	FVector2D GetDirection() { return Direction; }
 private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* Sprite = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
-	class UMovementComp* MovementComponent = nullptr;
+
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere = nullptr;
@@ -46,7 +47,7 @@ private:
 
 	void GetInputRight(float Value);
 
-	FVector Direction = FVector(0);
+	FVector2D Direction = FVector2D(0.0,0.0);
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
