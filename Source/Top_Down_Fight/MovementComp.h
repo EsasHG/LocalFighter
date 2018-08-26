@@ -29,7 +29,7 @@ public:
 	float MaxSpeed = 4000;
 
 	float Acceleration = 15;
-	float Deceleration;
+	float Deceleration = 20;
 	float TurningBoost;
 	void GetInputVector();
 

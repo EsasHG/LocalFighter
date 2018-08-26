@@ -4,6 +4,9 @@
 #include "Components/InputComponent.h"
 #include "PaperSpriteComponent.h"
 #include "Components/SphereComponent.h"
+#include "Engine/World.h"
+
+#include "Projectile.h"
 #include "MovementComp.h"
 
 
@@ -38,7 +41,7 @@ void ADot::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (MovementComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("cry Begins"));
+
 	}
 
 }
@@ -50,6 +53,9 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAxis("MoveRight", this, &ADot::GetInputRight);
 	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::GetInputUp);
+	PlayerInputComponent->BindAxis("ShootUp", this, &ADot::ShootUp);
+	PlayerInputComponent->BindAxis("ShootRight", this, &ADot::ShootRight);
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ADot::Shoot);
 
 
 }
@@ -58,6 +64,19 @@ void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlap Begins"));
 }
+
+void ADot::Shoot()
+{
+	
+	UE_LOG(LogTemp, Warning, TEXT("Shooting! %f, %f"), ShootDirection.X, ShootDirection.Y);
+	
+	AProjectile* Bulletd = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation(), GetActorRotation() + FRotator(0, 0, 90));
+
+
+
+
+}
+
 
 void ADot::GetInputUp(float Value)
 {
@@ -70,4 +89,14 @@ void ADot::GetInputRight(float Value)
 
 	Direction.Y = Value;
 
+}
+
+void ADot::ShootUp(float Value)
+{
+	ShootDirection.X = Value;
+}
+
+void ADot::ShootRight(float Value)
+{
+	ShootDirection.Y = Value;
 }

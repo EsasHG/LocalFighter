@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MovementComp.h"
-#include "Dot.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
+
+#include "Dot.h"
 
 
 // Sets default values for this component's properties
@@ -63,7 +64,14 @@ FVector2D UMovementComp::CalculateVelocity()
 	FVector2D Velocity;
 
 	//if turn
-	if ((InputVector != LastInputVector) && InputVector != FVector2D(0, 0) && (LastInputVector != FVector2D(0, 0)))
+	if ((FVector2D(0,0).CrossProduct(LastInputVector, InputVector) == 0) && (InputVector != LastInputVector) && InputVector != FVector2D(0, 0) && (LastInputVector != FVector2D(0, 0)))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Turning 180! %f"), abs(InputVector.Size()));
+		CurrSpeed = -abs(CurrSpeed -Deceleration);
+		Velocity = InputVector * CurrSpeed;
+		LastInputVector = InputVector;
+	}
+	else if ((InputVector != LastInputVector) && InputVector != FVector2D(0, 0) && (LastInputVector != FVector2D(0, 0)))
 	{
 			UE_LOG(LogTemp, Warning, TEXT("Turning! %f"), abs(InputVector.Size()));
 			CurrSpeed = CurrSpeed/2;
@@ -83,7 +91,7 @@ FVector2D UMovementComp::CalculateVelocity()
 	{
 		if (CurrSpeed > 0)
 		{
-			CurrSpeed -= Acceleration;
+			CurrSpeed -= Deceleration;
 		}
 		Velocity = LastInputVector * CurrSpeed;
 	}

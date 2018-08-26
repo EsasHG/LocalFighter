@@ -46,11 +46,20 @@ private:
 	void GetInputUp(float Value);
 
 	void GetInputRight(float Value);
+	void ShootUp(float Value);
+	void ShootRight(float Value);
+	void Shoot();
+
+
 
 	FVector2D Direction = FVector2D(0.0,0.0);
+	FVector2D ShootDirection = FVector2D(0, 0);
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
+
+	UPROPERTY(EditDefaultsOnly)
+	UClass* Bullet = nullptr;
 
 	
 	
