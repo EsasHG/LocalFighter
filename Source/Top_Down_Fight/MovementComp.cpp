@@ -43,10 +43,10 @@ void UMovementComp::MoveActor(float DeltaTime)
 {
 	if (DotToMove)
 	{
-		//DotToMove->SetActorLocation(DotToMove->GetActorLocation() + FVector(CalculateVelocity() *DeltaTime, 0), true);
-		DotToMove->SetActorLocation(DotToMove->GetActorLocation() + FVector(GetInputVector()*1000 *DeltaTime, 0), true);
+		DotToMove->SetActorLocation(DotToMove->GetActorLocation() + FVector(CalculateVelocity() *DeltaTime, 0), true);
+		
 
-		//CurrSpeed = Velocity.Size();
+
 	}
 }
 
@@ -65,7 +65,6 @@ FVector2D UMovementComp::CalculateVelocity()
 	FVector2D Acceleration = GetInputVector()* AccelerationConst;
 	FVector2D Velocity = PrevVelocity + Acceleration - PrevVelocity/DecelerationConst;
 	PrevVelocity = Velocity;
-
 
 	//TODO bytt til fvector, bruk ClampToMaxSize for å slippe if-testen
 	if (Velocity.Size() > MaxSpeed)
