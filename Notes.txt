@@ -1,0 +1,19 @@
+Features to add:
+
+- Two players at once.
+- invisible walls/edges
+- New sprites
+- target area in the middle
+
+- Ability to be shot and bounce backwards?
+- Maybe being able to charge shots?
+- shots might cancel each other out?
+- ability to spam shots by using two triggers?
+
+
+
+
+Bugs:
+
+- when aiming diagonally with my keyboard, movement is limited. 
+Only happens with my one keyboard, doesnt seem to be code related

@@ -25,19 +25,18 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+private:
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed = 3000;
-	float TurningBoost;
-	FVector2D GetInputVector();
 
-private:
-	
-	float AccelerationConst{ 50 };
-	float DecelerationConst{ 50 };
+	const float AccelerationConst{ 50 };
+	const float DecelerationConst{ 50 };
+	float TurningBoost;
 
 	FVector2D PrevVelocity{ 0,0 };
 	
 	void MoveActor(float DeltaTime);
+	FVector2D GetInputVector();
 
 	FVector2D CalculateVelocity();
 
