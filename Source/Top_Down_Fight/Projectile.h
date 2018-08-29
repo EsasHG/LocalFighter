@@ -29,5 +29,5 @@ public:
 
 private: 
 	FVector2D BulletDirection = FVector2D(0,0);
-	float BulletSpeed = 2000;
+	float BulletSpeed = 3000;
 };

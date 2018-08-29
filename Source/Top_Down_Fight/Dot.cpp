@@ -43,7 +43,7 @@ void ADot::Tick(float DeltaTime)
 	{
 		//FVector(ShootDirection.X*ShootDirection.X, -1, ShootDirection.Y*ShootDirection.Y) * 300
 		ShootDirection.Normalize();
-		GunSprite->SetRelativeLocation(FVector(ShootDirection.X,-1, ShootDirection.Y)*300);
+		GunSprite->SetRelativeLocation(FVector(ShootDirection.X, -1, ShootDirection.Y)*300);
 	}
 	Super::Tick(DeltaTime);
 	if (MovementComponent)
@@ -74,14 +74,12 @@ void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 
 void ADot::Shoot()
 {
-
-	AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(),0) * 100 , GetActorRotation() + FRotator(0, 0, 90));
-	ShootDirection.Normalize();
-	NewBullet->SetDirection(ShootDirection);
-
-
-
-
+	if (!ShootDirection.IsZero())
+	{
+		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), -1) * 200, GetActorRotation() + FRotator(0, 0, 90));
+		ShootDirection.Normalize();
+		NewBullet->SetDirection(ShootDirection);
+	}
 }
 
 

@@ -2,7 +2,6 @@
 
 #include "MovementComp.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
-
 #include "Dot.h"
 
 
@@ -49,34 +48,45 @@ void UMovementComp::MoveActor(float DeltaTime)
 	}
 }
 
-void UMovementComp::GetInputVector()
+FVector2D UMovementComp::GetInputVector()
 {
 	if (DotToMove)
 	{
-		InputVector = DotToMove->GetDirection().GetSafeNormal();
+		return DotToMove->GetDirection().GetSafeNormal();
 	}
+	return FVector2D(0, 0);
 }
 
 FVector2D UMovementComp::CalculateVelocity()
 {
-	GetInputVector();
+	//GetInputVector();
 
-	FVector2D Velocity;
+	/*FVector2D InputVectorTested;
+	if (InputVector.IsZero())
+	{
+		InputVectorTested = LastInputVector;
+	}
+	else
+	{
+		InputVectorTested = InputVector;
+	}
 
-	//if turn
+
+	//if 180
 	if ((LastInputVector.CrossProduct(LastInputVector, InputVector) == 0) && (InputVector != LastInputVector) && !InputVector.IsZero() && !LastInputVector.IsZero())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Turning 180! %f"), abs(InputVector.Size()));
-		CurrSpeed = -abs(CurrSpeed -Deceleration);
-		Velocity = InputVector * CurrSpeed;
-		LastInputVector = InputVector;
+		//CurrSpeed = -abs(CurrSpeed -Deceleration);
+		Velocity = InputVectorTested * CurrSpeed;
+		LastInputVector = InputVectorTested;
 	}
 	else if ((InputVector != LastInputVector) && !InputVector.IsZero() && !LastInputVector.IsZero())
 	{
+		//if turn
 			UE_LOG(LogTemp, Warning, TEXT("Turning! %f"), abs(InputVector.Size()));
-			CurrSpeed = CurrSpeed/2;
-			Velocity = InputVector * CurrSpeed;
-			LastInputVector = InputVector;
+			FVector2D C = FMath::Lerp(LastInputVector, InputVectorTested, 0.5);
+			Velocity = C * CurrSpeed;
+			LastInputVector = C;
 		
 	}
 	else if ((CurrSpeed <= MaxSpeed) && (!InputVector.IsZero()))
@@ -84,8 +94,8 @@ FVector2D UMovementComp::CalculateVelocity()
 		//continiue on path
 		CurrSpeed += Acceleration;
 
-		Velocity = InputVector * CurrSpeed;
-		LastInputVector = InputVector;
+		Velocity = InputVectorTested * CurrSpeed;
+		LastInputVector = InputVectorTested;
 	}
 	else
 	{
@@ -97,5 +107,59 @@ FVector2D UMovementComp::CalculateVelocity()
 			CurrSpeed = 0;
 		Velocity = LastInputVector * CurrSpeed;
 	}
+	*/
+	//calculate speed
+
+	
+
+
+	////makes sure it knows which way to go when you stop moving
+	//if (InputVector.IsZero())
+	//{
+	//	Direction = LastInputVector;
+	//	CurrSpeed -= Deceleration;
+	//}
+	//else if ((InputVector != LastInputVector) && !InputVector.IsZero() && !LastInputVector.IsZero() && (FMath::RadiansToDegrees(FMath::Acos(FVector2D::DotProduct(InputVector, LastInputVector) / InputVector.Size()*LastInputVector.Size())) > 1))//FVector2D::Distance(InputVector, LastInputVector) > 0.05))
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Turning! %f"),FMath::RadiansToDegrees( FMath::Acos(FVector2D::DotProduct(InputVector, LastInputVector) / InputVector.Size()*LastInputVector.Size())));
+	//
+	//	
+	//	CurrSpeed -= (FVector2D::DotProduct(InputVector, LastInputVector) / InputVector.Size()*LastInputVector.Size());
+	//	Direction = LastInputVector;
+	//	LastInputVector = FMath::Lerp(InputVector, LastInputVector,0.7);
+
+	//	
+	//	
+	//}
+	//else
+	//{
+
+	//	CurrSpeed +=Acceleration;
+
+
+	//	Direction = InputVector;
+	//	LastInputVector = InputVector;
+	//}
+
+	////makes sure CurrSpeed is valid
+	//if (CurrSpeed > MaxSpeed)
+	//	CurrSpeed = MaxSpeed;
+	//if (CurrSpeed < 0)
+	//	CurrSpeed = 0;
+	//
+
+	//FVector2D Velocity = Direction * CurrSpeed;
+	
+	FVector2D InputVector = GetInputVector();
+	Acceleration = GetInputVector()* AccelerationConst;
+	FVector2D Velocity = PrevVelocity + Acceleration;
+	PrevVelocity = Velocity;
+
+	if (Velocity.Size() > MaxSpeed)
+	{
+		Velocity = Velocity.GetSafeNormal()*MaxSpeed;
+	}
+
+
 	return Velocity;
 }

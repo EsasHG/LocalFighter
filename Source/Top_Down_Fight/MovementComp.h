@@ -26,22 +26,21 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere)
-	float MaxSpeed = 4000;
+	float MaxSpeed = 2000;
 
-	float Acceleration = 15;
-	float Deceleration = 100;
+	float Deceleration = 20;
 	float TurningBoost;
-	void GetInputVector();
+	FVector2D GetInputVector();
 
 
 private:
 	
-	float CurrSpeed{ 0 };
+	float AccelerationConst{ 50 };
 
-	FVector2D InputVector;
 	FVector2D LastInputVector{ 0,0 };
-
-	FVector prevDirection;
+	FVector2D Acceleration = FVector2D(0,0);
+	FVector2D Velocity = FVector2D(0, 0);
+	FVector2D PrevVelocity = FVector2D(0,0);
 	
 	void MoveActor(float DeltaTime);
 

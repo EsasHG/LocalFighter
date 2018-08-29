@@ -55,7 +55,7 @@ private:
 
 
 	FVector2D Direction = FVector2D(0.0,0.0);
-	FVector2D ShootDirection = FVector2D(0, 0);
+	FVector2D ShootDirection = FVector2D(1, 0);
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
