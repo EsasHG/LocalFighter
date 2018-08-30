@@ -10,24 +10,24 @@ UCLASS()
 class TOP_DOWN_FIGHT_API AProjectile : public AActor
 {
 	GENERATED_BODY()
-	
+
+
 public:	
-	// Sets default values for this actor's properties
 	AProjectile();
 	void SetDirection(FVector2D Value) { BulletDirection = Value.GetSafeNormal(); }
 
-protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* Sprite = nullptr;
 
 private: 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+
 	FVector2D BulletDirection = FVector2D(0,0);
 	float BulletSpeed = 3000;
 };

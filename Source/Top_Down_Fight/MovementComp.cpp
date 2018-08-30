@@ -74,3 +74,9 @@ FVector2D UMovementComp::CalculateVelocity()
 
 	return Velocity;
 }
+
+void UMovementComp::AddForce(FVector2D fIn)
+{
+	PrevVelocity = fIn;
+	UE_LOG(LogTemp, Warning, TEXT("Adding force!!"));
+}

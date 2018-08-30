@@ -24,7 +24,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	void AddForce(FVector2D fIn);
 private:
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed = 3000;
@@ -37,8 +37,8 @@ private:
 	
 	void MoveActor(float DeltaTime);
 	FVector2D GetInputVector();
-
 	FVector2D CalculateVelocity();
+
 
 	class ADot * DotToMove = nullptr;
 };
