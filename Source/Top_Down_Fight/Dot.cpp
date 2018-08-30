@@ -17,7 +17,6 @@ ADot::ADot()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere"); 
-	Sphere->bGenerateOverlapEvents = true;
 	RootComponent = Sphere;
 
 	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>("Sprite");
