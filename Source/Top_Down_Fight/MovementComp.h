@@ -29,7 +29,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed = 3000;
 
-	const float AccelerationConst{ 50 };
+	const float AccelerationConst{ 75 };
 	const float DecelerationConst{ 50 };
 	float TurningBoost;
 

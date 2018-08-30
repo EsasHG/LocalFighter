@@ -39,16 +39,18 @@ void ADot::BeginPlay()
 // Called every frame
 void ADot::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
 	if (GunSprite)
 	{
 		//FVector(ShootDirection.X*ShootDirection.X, -1, ShootDirection.Y*ShootDirection.Y) * 300
 		ShootDirection.Normalize();
-		GunSprite->SetRelativeLocation(FVector(ShootDirection.X, -1, ShootDirection.Y)*300);
+		GunSprite->SetRelativeLocation(FVector(ShootDirection.X, 0, ShootDirection.Y)*100);
 	}
-	Super::Tick(DeltaTime);
-	if (MovementComponent)
-	{
 
+
+	if (!AimDirection.IsZero())
+	{
+		ShootDirection = AimDirection.GetSafeNormal();
 	}
 
 }
@@ -76,8 +78,9 @@ void ADot::Shoot()
 {
 	if (!ShootDirection.IsZero())
 	{
+
+
 		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), -1) * 200, GetActorRotation() + FRotator(0, 0, 90));
-		ShootDirection.Normalize();
 		NewBullet->SetDirection(ShootDirection);
 	}
 }
@@ -97,10 +100,10 @@ void ADot::GetInputRight(float Value)
 
 void ADot::ShootUp(float Value)
 {
-	ShootDirection.X = Value;
+	AimDirection.X = Value;
 }
 
 void ADot::ShootRight(float Value)
 {
-	ShootDirection.Y = Value;
+	AimDirection.Y = Value;
 }

@@ -19,7 +19,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -27,24 +27,24 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	class UMovementComp* MovementComponent = nullptr;
+		class UMovementComp* MovementComponent = nullptr;
 
 	FVector2D GetDirection() { return Direction; }
 private:
 
 	UPROPERTY(VisibleAnywhere)
-	class UPaperSpriteComponent* Sprite = nullptr;
+		class UPaperSpriteComponent* Sprite = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	class UPaperSpriteComponent* GunSprite = nullptr;
+		class UPaperSpriteComponent* GunSprite = nullptr;
 
 
 	UPROPERTY(VisibleAnywhere)
-	class USphereComponent* Sphere = nullptr;
+		class USphereComponent* Sphere = nullptr;
 
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 	void GetInputUp(float Value);
 
 	void GetInputRight(float Value);
@@ -52,10 +52,9 @@ private:
 	void ShootRight(float Value);
 	void Shoot();
 
-
-
-	FVector2D Direction = FVector2D(0.0,0.0);
-	FVector2D ShootDirection = FVector2D(1, 0);
+	FVector2D Direction{ 0.f, 0.f };
+	FVector2D ShootDirection{ 1.f, 0.f };
+	FVector2D AimDirection{ 0.f, 0.f };
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;

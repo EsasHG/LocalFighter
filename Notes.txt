@@ -7,6 +7,8 @@ Features to add:
 
 - Ability to be shot and bounce backwards?
 - Maybe being able to charge shots?
+ 	- cant move while charging?
+	- on releasing big shot, bounce backwards?
 - shots might cancel each other out?
 - ability to spam shots by using two triggers?
 
