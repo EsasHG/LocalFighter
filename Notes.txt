@@ -17,6 +17,7 @@ Features to add:
 
 Bugs:
 
-- GAME CRASHES IF YOUR BULLETS OVERLAP YOU!
+- bullets dont always spawn because of collisions
+- can shoot yourself forward by colliding with own bullets.
 - when aiming diagonally with my keyboard, movement is limited. 
 Only happens with my one keyboard, doesnt seem to be code related

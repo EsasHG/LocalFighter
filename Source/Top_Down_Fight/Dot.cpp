@@ -46,7 +46,6 @@ void ADot::Tick(float DeltaTime)
 		GunSprite->SetRelativeLocation(FVector(ShootDirection.X, 0, ShootDirection.Y)*100);
 	}
 
-
 	if (!AimDirection.IsZero())
 	{
 		ShootDirection = AimDirection.GetSafeNormal();
@@ -64,7 +63,6 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("ShootUp", this, &ADot::ShootUp);
 	PlayerInputComponent->BindAxis("ShootRight", this, &ADot::ShootRight);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ADot::Shoot);
-
 
 }
 
@@ -92,7 +90,6 @@ void ADot::Shoot()
 	}
 }
 
-
 void ADot::GetInputUp(float Value)
 {
 	Direction.X = Value;
@@ -100,9 +97,7 @@ void ADot::GetInputUp(float Value)
 
 void ADot::GetInputRight(float Value)
 {
-
 	Direction.Y = Value;
-
 }
 
 void ADot::ShootUp(float Value)
