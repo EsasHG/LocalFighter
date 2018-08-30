@@ -14,7 +14,7 @@ AProjectile::AProjectile()
 	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>("Sprite");
 	RootComponent = Sprite;
 
-	InitialLifeSpan = 0.1;
+	InitialLifeSpan = 0.8;
 }
 
 // Called when the game starts or when spawned
@@ -39,8 +39,9 @@ void AProjectile::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 	ADot* Dot = Cast<ADot>(OtherActor);
 	if (Dot)
 	{
-	UE_LOG(LogTemp, Warning, TEXT("Dot found!"));
+		UE_LOG(LogTemp, Warning, TEXT("Dot found!"));
 		Dot->GetMovementComp()->AddForce(BulletDirection*BulletSpeed);
+		Destroy();
 	}
 }
 

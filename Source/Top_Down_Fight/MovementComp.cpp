@@ -75,6 +75,7 @@ FVector2D UMovementComp::CalculateVelocity()
 	return Velocity;
 }
 
+//gets called on overlap with bullet
 void UMovementComp::AddForce(FVector2D fIn)
 {
 	PrevVelocity = fIn;

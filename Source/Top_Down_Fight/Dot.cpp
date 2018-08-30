@@ -78,8 +78,16 @@ void ADot::Shoot()
 	if (!ShootDirection.IsZero())
 	{
 
-
-		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), -1) * 200, GetActorRotation() + FRotator(0, 0, 90));
+		//something seems to be wrong here
+		FActorSpawnParameters Params;
+		Params.Instigator = this;
+		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), 0) * 200, GetActorRotation() + FRotator(0, 0, 90),Params);
+		
+		if (!NewBullet) {
+			UE_LOG(LogTemp, Error, TEXT("Bullet not spawned!!"));
+			return; 
+		}
 		NewBullet->SetDirection(ShootDirection);
 	}
 }
