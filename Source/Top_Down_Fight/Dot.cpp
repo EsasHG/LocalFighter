@@ -5,6 +5,7 @@
 #include "PaperSpriteComponent.h"
 #include "Components/SphereComponent.h"
 #include "Engine/World.h"
+#include "Public/TimerManager.h"
 
 #include "Projectile.h"
 #include "MovementComp.h"
@@ -33,6 +34,7 @@ void ADot::BeginPlay()
 {
 	Super::BeginPlay();
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ADot::OnOverlapBegin);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &ADot::OnOverlapEnd);
 }
 
 // Called every frame
@@ -66,9 +68,10 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ADot::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("Dot overlap begins!"));
+	GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::StartCounting, 1.f, true);
 }
 
 void ADot::Shoot()
@@ -88,6 +91,17 @@ void ADot::Shoot()
 		}
 		NewBullet->SetDirection(ShootDirection);
 	}
+}
+
+void ADot::StartCounting()
+{
+	WinCounter += 1;
+}
+
+void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Dot overlap Ends!"));
+	GetWorld()->GetTimerManager().ClearTimer(TH_GoalCounter);
 }
 
 void ADot::GetInputUp(float Value)

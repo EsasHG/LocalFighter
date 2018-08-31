@@ -2,14 +2,18 @@
 
 #include "Island.h"
 #include "PaperSpriteComponent.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 AIsland::AIsland()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere"); 
+	RootComponent = Sphere;
+
 	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>("Sprite");
-	RootComponent = Sprite;
+	Sphere->SetupAttachment(Sprite);
 }
 
 // Called when the game starts or when spawned

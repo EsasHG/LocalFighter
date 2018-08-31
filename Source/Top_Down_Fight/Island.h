@@ -19,6 +19,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:	
+
+	UPROPERTY(VisibleAnywhere)
+	class USphereComponent* Sphere = nullptr;
+
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* Sprite = nullptr;
 	

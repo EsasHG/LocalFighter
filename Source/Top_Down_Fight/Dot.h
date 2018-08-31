@@ -14,6 +14,8 @@ class TOP_DOWN_FIGHT_API ADot : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ADot();
+	UPROPERTY(VisibleAnywhere)
+	int WinCounter{ 0 };
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,6 +35,8 @@ public:
 		class UMovementComp* MovementComponent = nullptr;
 
 	FVector2D GetDirection() { return Direction; }
+	UFUNCTION(BlueprintCallable)
+	int GetScore() { return WinCounter; }
 private:
 
 	UPROPERTY(VisibleAnywhere)
@@ -45,14 +49,19 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* Sphere = nullptr;
 
-	UFUNCTION()
-		void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	FTimerHandle TH_GoalCounter;
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	void GetInputUp(float Value);
 	void GetInputRight(float Value);
 	void ShootUp(float Value);
 	void ShootRight(float Value);
 	void Shoot();
+	void StartCounting();
 
 	FVector2D Direction{ 0.f, 0.f };
 	FVector2D ShootDirection{ 1.f, 0.f };
@@ -60,6 +69,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
+
+
 
 	UPROPERTY(EditDefaultsOnly)
 	UClass* Bullet = nullptr;
