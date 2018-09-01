@@ -33,10 +33,10 @@ private:
 	float MaxSpeed = 2500;
 
 	UPROPERTY(EditAnywhere)
-	const float AccelerationConst{ 60 };
+	float AccelerationConst{ 60 };
 
 	UPROPERTY(EditAnywhere)
-	const float DecelerationConst{ 50 };
+	float DecelerationConst{ 50 };
 	float TurningBoost;
 
 	FVector2D PrevVelocity{ 0,0 };

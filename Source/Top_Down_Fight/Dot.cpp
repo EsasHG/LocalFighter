@@ -80,7 +80,7 @@ void ADot::Shoot()
 		FActorSpawnParameters Params;
 		Params.Instigator = this;
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), 0) * 200, GetActorRotation() + FRotator(0, 0, 90),Params);
+		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), 0) * 150, GetActorRotation() + FRotator(0, 0, 90),Params);
 		
 		if (!NewBullet) {
 			UE_LOG(LogTemp, Error, TEXT("Bullet not spawned!!"));
@@ -109,7 +109,10 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Dot overlap Ends!"));
-	GetWorld()->GetTimerManager().ClearTimer(TH_GoalCounter);
+	if (Cast<AIsland>(OtherActor))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(TH_GoalCounter);
+	}
 }
 
 void ADot::StartCounting()

@@ -37,11 +37,12 @@ void AProjectile::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlap Begins"));
 	ADot* Dot = Cast<ADot>(OtherActor);
-	if (Dot)
+	if (Dot && OtherActor != Instigator )
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Dot found!"));
 		Dot->GetMovementComp()->AddForce(BulletDirection*BulletSpeed);
 		Destroy();
+
 	}
 }
 

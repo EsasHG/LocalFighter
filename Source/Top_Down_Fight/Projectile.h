@@ -29,5 +29,6 @@ private:
 
 
 	FVector2D BulletDirection = FVector2D(0,0);
+	UPROPERTY(EditAnywhere)
 	float BulletSpeed = 3100;
 };
