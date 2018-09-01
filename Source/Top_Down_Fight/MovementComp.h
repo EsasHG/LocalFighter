@@ -7,6 +7,7 @@
 #include "MovementComp.generated.h"
 
 
+class ADot;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 
 class TOP_DOWN_FIGHT_API UMovementComp : public UActorComponent
@@ -25,11 +26,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddForce(FVector2D fIn);
+	void SendForce(ADot* DotIn);
+	FVector2D GetVelocity() { return PrevVelocity; }
 private:
 	UPROPERTY(EditAnywhere)
-	float MaxSpeed = 3000;
+	float MaxSpeed = 2500;
 
-	const float AccelerationConst{ 75 };
+	UPROPERTY(EditAnywhere)
+	const float AccelerationConst{ 60 };
+
+	UPROPERTY(EditAnywhere)
 	const float DecelerationConst{ 50 };
 	float TurningBoost;
 

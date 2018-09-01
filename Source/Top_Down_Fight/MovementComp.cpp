@@ -75,9 +75,18 @@ FVector2D UMovementComp::CalculateVelocity()
 	return Velocity;
 }
 
-//gets called on overlap with bullet
+//Adds a force to the owner of the component
 void UMovementComp::AddForce(FVector2D fIn)
 {
 	PrevVelocity = fIn;
 	UE_LOG(LogTemp, Warning, TEXT("Adding force!!"));
+}
+
+//sends a force from the owner of the component
+void UMovementComp::SendForce(ADot * DotIn)
+{
+	FVector2D temp = DotIn->MovementComponent->GetVelocity();
+	DotIn->MovementComponent->AddForce(PrevVelocity);
+	//AddForce(temp);
+	//DotIn->MovementComponent->SendForce(Cast<ADot>(GetOwner()));
 }

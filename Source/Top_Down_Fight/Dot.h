@@ -45,7 +45,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		class UPaperSpriteComponent* GunSprite = nullptr;
 
-
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* Sphere = nullptr;
 
