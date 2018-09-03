@@ -49,6 +49,7 @@ private:
 		class USphereComponent* Sphere = nullptr;
 
 	FTimerHandle TH_GoalCounter;
+	FTimerHandle TH_ShootCounter;
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -61,6 +62,7 @@ private:
 	void ShootRight(float Value);
 	void Shoot();
 	void StartCounting();
+	void SetShootingTrue() { bCanShoot = true; }
 
 	FVector2D Direction{ 0.f, 0.f };
 	FVector2D ShootDirection{ 1.f, 0.f };
@@ -69,7 +71,10 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float Speed = 1000;
 
+	UPROPERTY(EditDefaultsOnly)
+	float ShootRate = 0.2;
 
+	bool bCanShoot = true;
 
 	UPROPERTY(EditDefaultsOnly)
 	UClass* Bullet = nullptr;

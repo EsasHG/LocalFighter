@@ -19,9 +19,16 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* Box = nullptr;
+	
+	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* Mesh = nullptr;
+
+	bool GetIsHorizontalWall() { return bIsHorizontalWall; }
 private:
 
+	UPROPERTY(EditAnywhere)
+	bool bIsHorizontalWall = false;
 	
 	
 };

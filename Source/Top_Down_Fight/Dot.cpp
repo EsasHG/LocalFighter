@@ -45,7 +45,6 @@ void ADot::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (GunSprite)
 	{
-		//FVector(ShootDirection.X*ShootDirection.X, -1, ShootDirection.Y*ShootDirection.Y) * 300
 		ShootDirection.Normalize();
 		GunSprite->SetRelativeLocation(FVector(ShootDirection.X, 0, ShootDirection.Y)*100);
 	}
@@ -67,14 +66,13 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("ShootUp", this, &ADot::ShootUp);
 	PlayerInputComponent->BindAxis("ShootRight", this, &ADot::ShootRight);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ADot::Shoot);
+	PlayerInputComponent->BindAction("Shoot", IE_Repeat, this, &ADot::Shoot);
 
 }
 
-
-
 void ADot::Shoot()
 {
-	if (!ShootDirection.IsZero())
+	if (bCanShoot && !ShootDirection.IsZero())
 	{
 
 		//something seems to be wrong here
@@ -83,15 +81,14 @@ void ADot::Shoot()
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), 0) * 150, GetActorRotation() + FRotator(0, 0, 90),Params);
 		
-		if (!NewBullet) {
-			UE_LOG(LogTemp, Error, TEXT("Bullet not spawned!!"));
-			return; 
+		if (NewBullet) 
+		{
+			NewBullet->SetDirection(ShootDirection);
+			bCanShoot = false;
 		}
-		NewBullet->SetDirection(ShootDirection);
+		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::SetShootingTrue, ShootRate, true);
 	}
 }
-
-
 
 void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -105,9 +102,20 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 	{
 		MovementComponent->SendForce(OtherDot);
 	}
-	else if (Cast<AWall>(OtherActor))
+	else 
 	{
-		MovementComponent->PrevVelocity = FVector2D{ 0,0 };
+		AWall* Wall = Cast<AWall>(OtherActor);
+		if (Wall)
+		{
+			if (Wall->GetIsHorizontalWall())
+			{
+				MovementComponent->PrevVelocity = FVector2D{ -MovementComponent->PrevVelocity.X, MovementComponent->PrevVelocity.Y };
+			}
+			else
+			{
+				MovementComponent->PrevVelocity = FVector2D{ MovementComponent->PrevVelocity.X, -MovementComponent->PrevVelocity.Y };
+			}
+		}
 	}
 }
 

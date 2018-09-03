@@ -2,6 +2,7 @@
 
 #include "Wall.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 AWall::AWall()
@@ -9,8 +10,11 @@ AWall::AWall()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Box = CreateDefaultSubobject<UBoxComponent>("Box");
+	RootComponent = Box;
+
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	RootComponent = Mesh;
+	Mesh->SetupAttachment(Box);
 }
 
 // Called when the game starts or when spawned
