@@ -28,6 +28,7 @@ public:
 	void AddForce(FVector2D fIn);
 	void SendForce(ADot* DotIn);
 	FVector2D GetVelocity() { return PrevVelocity; }
+	FVector2D PrevVelocity{ 0,0 };
 private:
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed = 2500;
@@ -39,7 +40,7 @@ private:
 	float DecelerationConst{ 50 };
 	float TurningBoost;
 
-	FVector2D PrevVelocity{ 0,0 };
+
 	
 	void MoveActor(float DeltaTime);
 	FVector2D GetInputVector();

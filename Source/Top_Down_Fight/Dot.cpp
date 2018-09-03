@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "MovementComp.h"
 #include "Island.h"
+#include "Wall.h"
 
 
 // Sets default values
@@ -103,6 +104,10 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 	else if (OtherDot)
 	{
 		MovementComponent->SendForce(OtherDot);
+	}
+	else if (Cast<AWall>(OtherActor))
+	{
+		MovementComponent->PrevVelocity = FVector2D{ 0,0 };
 	}
 }
 
