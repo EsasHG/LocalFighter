@@ -98,7 +98,7 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 	ADot* OtherDot = Cast<ADot>(OtherActor);
 	if (Cast<AIsland>(OtherActor))
 	{ 
-		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::StartCounting, 1.f, true);
+		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::StartCounting, 0.1f, true);
 	}
 	else if (OtherDot)
 	{
@@ -117,7 +117,7 @@ void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActo
 
 void ADot::StartCounting()
 {
-	WinCounter += 1;
+	WinCounter += 0.1;
 }
 
 void ADot::GetInputUp(float Value)

@@ -15,7 +15,7 @@ public:
 	// Sets default values for this pawn's properties
 	ADot();
 	UPROPERTY(VisibleAnywhere)
-	int WinCounter{ 0 };
+	float WinCounter{ 0 };
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,7 +36,7 @@ public:
 
 	FVector2D GetDirection() { return Direction; }
 	UFUNCTION(BlueprintCallable)
-	int GetScore() { return WinCounter; }
+	float GetScore() { return WinCounter; }
 private:
 
 	UPROPERTY(VisibleAnywhere)
