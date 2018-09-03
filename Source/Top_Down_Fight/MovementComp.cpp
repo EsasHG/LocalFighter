@@ -34,9 +34,6 @@ void UMovementComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	MoveActor(DeltaTime);
-
-	
-	// ...
 }
 
 void UMovementComp::MoveActor(float DeltaTime)
@@ -44,9 +41,6 @@ void UMovementComp::MoveActor(float DeltaTime)
 	if (DotToMove)
 	{
 		DotToMove->SetActorLocation(DotToMove->GetActorLocation() + FVector(CalculateVelocity() *DeltaTime, 0), true);
-		
-
-
 	}
 }
 
@@ -79,7 +73,6 @@ FVector2D UMovementComp::CalculateVelocity()
 void UMovementComp::AddForce(FVector2D fIn)
 {
 	PrevVelocity = fIn;
-	UE_LOG(LogTemp, Warning, TEXT("Adding force!!"));
 }
 
 //sends a force from the owner of the component
@@ -87,6 +80,4 @@ void UMovementComp::SendForce(ADot * DotIn)
 {
 	FVector2D temp = DotIn->MovementComponent->GetVelocity();
 	DotIn->MovementComponent->AddForce(PrevVelocity);
-	//AddForce(temp);
-	//DotIn->MovementComponent->SendForce(Cast<ADot>(GetOwner()));
 }

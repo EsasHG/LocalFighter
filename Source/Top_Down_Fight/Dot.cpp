@@ -16,7 +16,6 @@
 // Sets default values
 ADot::ADot()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere"); 
@@ -43,9 +42,10 @@ void ADot::BeginPlay()
 void ADot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	ShootDirection.Normalize();
 	if (GunSprite)
 	{
-		ShootDirection.Normalize();
 		GunSprite->SetRelativeLocation(FVector(ShootDirection.X, 0, ShootDirection.Y)*100);
 	}
 
@@ -53,7 +53,6 @@ void ADot::Tick(float DeltaTime)
 	{
 		ShootDirection = AimDirection.GetSafeNormal();
 	}
-
 }
 
 // Called to bind functionality to input
@@ -74,7 +73,6 @@ void ADot::Shoot()
 {
 	if (bCanShoot && !ShootDirection.IsZero())
 	{
-
 		//something seems to be wrong here
 		FActorSpawnParameters Params;
 		Params.Instigator = this;
@@ -85,17 +83,16 @@ void ADot::Shoot()
 		{
 			NewBullet->SetDirection(ShootDirection);
 			bCanShoot = false;
+			GetWorld()->GetTimerManager().SetTimer(TH_ShootCounter, this, &ADot::SetShootingTrue, ShootRate, true);
 		}
-		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::SetShootingTrue, ShootRate, true);
 	}
 }
 
 void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Dot overlap begins!"));
 	ADot* OtherDot = Cast<ADot>(OtherActor);
 	if (Cast<AIsland>(OtherActor))
-	{ 
+	{
 		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::StartCounting, 0.1f, true);
 	}
 	else if (OtherDot)
@@ -121,16 +118,11 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 
 void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Dot overlap Ends!"));
 	if (Cast<AIsland>(OtherActor))
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Dot overlap Ends!"));
 		GetWorld()->GetTimerManager().ClearTimer(TH_GoalCounter);
 	}
-}
-
-void ADot::StartCounting()
-{
-	WinCounter += 0.1;
 }
 
 void ADot::GetInputUp(float Value)

@@ -23,7 +23,6 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 
 	Sprite->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
-	//UE_LOG(LogTemp, Warning, TEXT("Bullet Spawned! Direction: %f, %f"), BulletDirection.X, BulletDirection.Y);
 }
 
 // Called every frame
@@ -35,12 +34,10 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Begins"));
 	ADot* Dot = Cast<ADot>(OtherActor);
 	if (Dot && OtherActor != Instigator )
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Dot found!"));
-		Dot->GetMovementComp()->AddForce(BulletDirection*BulletSpeed);
+		Dot->MovementComponent->AddForce(BulletDirection*BulletSpeed);
 		Destroy();
 
 	}
