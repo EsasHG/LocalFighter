@@ -24,8 +24,6 @@ void UMovementComp::BeginPlay()
 
 	DotToMove = Cast<ADot>(GetOwner());
 
-	// ...
-
 }
 
 

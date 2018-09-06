@@ -94,6 +94,9 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 	if (Cast<AIsland>(OtherActor))
 	{
 		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::StartCounting, 0.1f, true);
+		//MovementComponent->MaxSpeed = 1500;
+
+
 	}
 	else if (OtherDot)
 	{
@@ -122,6 +125,7 @@ void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActo
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Dot overlap Ends!"));
 		GetWorld()->GetTimerManager().ClearTimer(TH_GoalCounter);
+		MovementComponent->MaxSpeed = 2500;
 	}
 }
 

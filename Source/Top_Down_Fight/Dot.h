@@ -62,9 +62,6 @@ private:
 	FVector2D AimDirection{ 0.f, 0.f };
 
 	UPROPERTY(EditDefaultsOnly)
-	float Speed{ 1000 };
-
-	UPROPERTY(EditDefaultsOnly)
 	float ShootRate{ 0.2 };
 
 	float WinCounter{ 0 };
