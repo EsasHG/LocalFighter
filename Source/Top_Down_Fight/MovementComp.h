@@ -27,6 +27,8 @@ public:
 	FVector2D PrevVelocity{ 0,0 };
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed = 2500;
+
+	bool bMoveIsAllowed = true;
 private:
 
 	UPROPERTY(EditAnywhere)
@@ -35,8 +37,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float DecelerationConst{ 50 };
 	float TurningBoost;
-
-
 	
 	void MoveActor(float DeltaTime);
 	FVector2D GetInputVector();

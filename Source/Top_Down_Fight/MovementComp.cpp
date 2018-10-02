@@ -44,7 +44,7 @@ void UMovementComp::MoveActor(float DeltaTime)
 
 FVector2D UMovementComp::GetInputVector()
 {
-	if (DotToMove)
+	if (DotToMove && bMoveIsAllowed)
 	{
 		return DotToMove->GetDirection().GetSafeNormal();
 	}

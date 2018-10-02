@@ -42,6 +42,7 @@ private:
 
 	FTimerHandle TH_GoalCounter;
 	FTimerHandle TH_ShootCounter;
+	FTimerHandle TH_ChargeShot;
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -53,7 +54,10 @@ private:
 	void GetInputRight(float Value);
 	void ShootUp(float Value);
 	void ShootRight(float Value);
-	void Shoot();
+	void Shoot(FVector Scale = FVector(1));
+	void ShootPressed();
+	void ChargeShot();
+	void StopCharge();
 	void StartCounting() { WinCounter += 0.1; }
 	void SetShootingTrue() { bCanShoot = true; bTimerIsSet = false; }
 
@@ -62,14 +66,15 @@ private:
 	FVector2D AimDirection{ 0.f, 0.f };
 
 	UPROPERTY(EditDefaultsOnly)
-	float ShootRate{ 0.2 };
+	float ShootRate{ 0.1 };
 
 	float WinCounter{ 0 };
 
 	bool bCanShoot = true;
 	bool bTimerIsSet = false;
 
-
+	UPROPERTY(EditDefaultsOnly)
+	class USoundBase* ShootingSound;
 
 	
 	

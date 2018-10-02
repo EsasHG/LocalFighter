@@ -6,6 +6,9 @@
 #include "Components/SphereComponent.h"
 #include "Engine/World.h"
 #include "Public/TimerManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMaterialLibrary.h"
+#include "Math/UnrealMathUtility.h"
 
 #include "Projectile.h"
 #include "MovementComp.h"
@@ -64,12 +67,14 @@ void ADot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveUp", this, &ADot::GetInputUp);
 	PlayerInputComponent->BindAxis("ShootUp", this, &ADot::ShootUp);
 	PlayerInputComponent->BindAxis("ShootRight", this, &ADot::ShootRight);
-	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ADot::Shoot);
-	PlayerInputComponent->BindAction("Shoot", IE_Repeat, this, &ADot::Shoot);
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ADot::ShootPressed);
+	PlayerInputComponent->BindAction("Shoot", IE_Repeat, this, &ADot::ShootPressed);
+	PlayerInputComponent->BindAction("ChargedShot", IE_Pressed, this, &ADot::ChargeShot);
+	PlayerInputComponent->BindAction("ChargedShot", IE_Released, this, &ADot::StopCharge);
 
 }
 
-void ADot::Shoot()
+void ADot::Shoot(FVector Scale)
 {
 	if (bCanShoot && !ShootDirection.IsZero())
 	{
@@ -77,14 +82,40 @@ void ADot::Shoot()
 		FActorSpawnParameters Params;
 		Params.Instigator = this;
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), 0) * 150, GetActorRotation() + FRotator(0, 0, 90),Params);
+		AProjectile* NewBullet = GetWorld()->SpawnActor<AProjectile>(Bullet, GetActorLocation() + FVector(ShootDirection.GetSafeNormal(), 0) * 150, GetActorRotation() + FRotator(0, 0, 90), Params);
 		
 		if (NewBullet) 
 		{
+
 			NewBullet->SetDirection(ShootDirection);
+			NewBullet->SetActorRelativeScale3D(Scale);
 			bCanShoot = false;
 			GetWorld()->GetTimerManager().SetTimer(TH_ShootCounter, this, &ADot::SetShootingTrue, ShootRate, true);
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ShootingSound, GetActorLocation(),1, FMath::FRandRange(0.9,1.1));
 		}
+	}
+}
+
+void ADot::ShootPressed()
+{
+	Shoot(FVector(0.1));
+}
+
+void ADot::ChargeShot()
+{
+	if (MovementComponent)
+		MovementComponent->bMoveIsAllowed = false;
+	UE_LOG(LogTemp,Warning,TEXT("Charing Shot!"))
+	GetWorld()->GetTimerManager().SetTimer(TH_ChargeShot, this, &ADot::StopCharge, 1, false);
+}
+
+void ADot::StopCharge()
+{
+	if (MovementComponent && MovementComponent->bMoveIsAllowed == false)
+	{
+		MovementComponent->bMoveIsAllowed = true;
+		Shoot(FVector(GetWorld()->GetTimerManager().GetTimerElapsed(TH_ChargeShot) / 2));
+		GetWorld()->GetTimerManager().ClearTimer(TH_ChargeShot);
 	}
 }
 
