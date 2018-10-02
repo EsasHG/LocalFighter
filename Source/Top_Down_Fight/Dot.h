@@ -25,14 +25,22 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetScore() { return WinCounter; }
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void StartExpanding();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void StopExpanding();
+
 	FVector2D GetDirection() { return Direction; }
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UPaperSpriteComponent* Sprite = nullptr;
 
 private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* Sphere = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
-		class UPaperSpriteComponent* Sprite = nullptr;
+
 
 	UPROPERTY(VisibleAnywhere)
 		class UPaperSpriteComponent* GunSprite = nullptr;
@@ -75,6 +83,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	class USoundBase* ShootingSound;
+
+	UPROPERTY(EditDefaultsOnly)
+	class USoundBase* ChargingSound;
 
 	
 	

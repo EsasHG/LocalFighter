@@ -1,7 +1,7 @@
 Features to add:
 
-- Two players at once.
-- invisible walls/edges
+- Two players at once. DONE
+- invisible walls/edges 
 - New sprites
 - target area in the middle
 
@@ -16,8 +16,10 @@ Features to add:
 
 
 Bugs:
-
+- can glide through walls
+- player collision with each other doesnt work.
+- when aiming diagonally with my keyboard, movement is limited. 
+  Only happens with my one keyboard, doesnt seem to be code related
+SOLVED bugs:
 - bullets dont always spawn because of collisions
 - can shoot yourself forward by colliding with own bullets.
-- when aiming diagonally with my keyboard, movement is limited. 
-Only happens with my one keyboard, doesnt seem to be code related

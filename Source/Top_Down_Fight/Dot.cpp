@@ -91,7 +91,7 @@ void ADot::Shoot(FVector Scale)
 			NewBullet->SetActorRelativeScale3D(Scale);
 			bCanShoot = false;
 			GetWorld()->GetTimerManager().SetTimer(TH_ShootCounter, this, &ADot::SetShootingTrue, ShootRate, true);
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ShootingSound, GetActorLocation(),1, FMath::FRandRange(0.9,1.1));
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ShootingSound, GetActorLocation(),1, FMath::FRandRange(0.8,1.2));
 		}
 	}
 }
@@ -105,7 +105,9 @@ void ADot::ChargeShot()
 {
 	if (MovementComponent)
 		MovementComponent->bMoveIsAllowed = false;
-	UE_LOG(LogTemp,Warning,TEXT("Charing Shot!"))
+	UE_LOG(LogTemp, Warning, TEXT("Charing Shot!"))
+	StartExpanding();
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), ChargingSound, GetActorLocation(), 1, FMath::FRandRange(0.8, 1.2));
 	GetWorld()->GetTimerManager().SetTimer(TH_ChargeShot, this, &ADot::StopCharge, 1, false);
 }
 
@@ -113,6 +115,7 @@ void ADot::StopCharge()
 {
 	if (MovementComponent && MovementComponent->bMoveIsAllowed == false)
 	{
+		StopExpanding();
 		MovementComponent->bMoveIsAllowed = true;
 		Shoot(FVector(GetWorld()->GetTimerManager().GetTimerElapsed(TH_ChargeShot) / 2));
 		GetWorld()->GetTimerManager().ClearTimer(TH_ChargeShot);
