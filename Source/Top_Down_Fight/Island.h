@@ -17,8 +17,10 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
+	//int getOverlappingActors() { return overlapingActors; }
 private:	
+
+	int overlapingActors = 0;
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere = nullptr;
