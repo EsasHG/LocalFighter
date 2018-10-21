@@ -35,12 +35,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UPaperSpriteComponent* Sprite = nullptr;
+	bool bHasRun = false;
 
 private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* Sphere = nullptr;
-
-
 
 	UPROPERTY(VisibleAnywhere)
 		class UPaperSpriteComponent* GunSprite = nullptr;
@@ -51,6 +50,7 @@ private:
 	FTimerHandle TH_GoalCounter;
 	FTimerHandle TH_ShootCounter;
 	FTimerHandle TH_ChargeShot;
+	FTimerHandle TH_ResetCollision;
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -68,6 +68,7 @@ private:
 	void StopCharge();
 	void StartCounting() { WinCounter += 0.1; }
 	void SetShootingTrue() { bCanShoot = true; bTimerIsSet = false; }
+	void CollisionCanRun() { bHasRun = false; }
 
 	FVector2D Direction{ 0.f, 0.f };
 	FVector2D ShootDirection{ 1.f, 0.f };

@@ -78,4 +78,5 @@ void UMovementComp::SendForce(ADot * DotIn)
 {
 	FVector2D temp = DotIn->MovementComponent->GetVelocity();
 	DotIn->MovementComponent->AddForce(PrevVelocity);
+	AddForce(temp);
 }

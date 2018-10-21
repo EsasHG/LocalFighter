@@ -132,25 +132,27 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 
 
 	}
-	else if (OtherDot)
+	if (OtherDot)
 	{
+		if (!bHasRun)
 		MovementComponent->SendForce(OtherDot);
+		OtherDot->bHasRun = true;
+		bHasRun = true;
+		GetWorld()->GetTimerManager().SetTimer(TH_ResetCollision, this, &ADot::CollisionCanRun, 0.31f, false);
 	}
-	else 
+	AWall* Wall = Cast<AWall>(OtherActor);
+	if (Wall)
 	{
-		AWall* Wall = Cast<AWall>(OtherActor);
-		if (Wall)
+		if (Wall->GetIsHorizontalWall())
 		{
-			if (Wall->GetIsHorizontalWall())
-			{
-				MovementComponent->PrevVelocity = FVector2D{ -MovementComponent->PrevVelocity.X, MovementComponent->PrevVelocity.Y };
-			}
-			else
-			{
-				MovementComponent->PrevVelocity = FVector2D{ MovementComponent->PrevVelocity.X, -MovementComponent->PrevVelocity.Y };
-			}
+			MovementComponent->PrevVelocity = FVector2D{ -MovementComponent->PrevVelocity.X, MovementComponent->PrevVelocity.Y };
+		}
+		else
+		{
+			MovementComponent->PrevVelocity = FVector2D{ MovementComponent->PrevVelocity.X, -MovementComponent->PrevVelocity.Y };
 		}
 	}
+	
 }
 
 void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
