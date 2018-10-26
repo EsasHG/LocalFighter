@@ -34,15 +34,15 @@ public:
 	FVector2D GetDirection() { return Direction; }
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UPaperSpriteComponent* Sprite = nullptr;
+	class UPaperSpriteComponent* Sprite = nullptr;
 	bool bHasRun = false;
 
 private:
 	UPROPERTY(VisibleAnywhere)
-		class USphereComponent* Sphere = nullptr;
+	class USphereComponent* Sphere = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-		class UPaperSpriteComponent* GunSprite = nullptr;
+	class UPaperSpriteComponent* GunSprite = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	UClass* Bullet = nullptr;
@@ -83,10 +83,10 @@ private:
 	bool bTimerIsSet = false;
 
 	UPROPERTY(EditDefaultsOnly)
-	class USoundBase* ShootingSound;
+	USoundBase* ShootingSound;
 
 	UPROPERTY(EditDefaultsOnly)
-	class USoundBase* ChargingSound;
+	USoundBase* ChargingSound;
 
 	
 	

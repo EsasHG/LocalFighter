@@ -127,7 +127,6 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 	ADot* OtherDot = Cast<ADot>(OtherActor);
 	if (Cast<AIsland>(OtherActor))
 	{
-		GetWorld()->GetTimerManager().SetTimer(TH_GoalCounter, this, &ADot::StartCounting, 0.1f, true);
 		//MovementComponent->MaxSpeed = 1500;
 
 
@@ -138,7 +137,7 @@ void ADot::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActo
 		MovementComponent->SendForce(OtherDot);
 		OtherDot->bHasRun = true;
 		bHasRun = true;
-		GetWorld()->GetTimerManager().SetTimer(TH_ResetCollision, this, &ADot::CollisionCanRun, 0.31f, false);
+		GetWorld()->GetTimerManager().SetTimer(TH_ResetCollision, this, &ADot::CollisionCanRun, 0.05f, false);
 	}
 	AWall* Wall = Cast<AWall>(OtherActor);
 	if (Wall)
@@ -159,7 +158,6 @@ void ADot::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActo
 {
 	if (Cast<AIsland>(OtherActor))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Dot overlap Ends!"));
 		GetWorld()->GetTimerManager().ClearTimer(TH_GoalCounter);
 		MovementComponent->MaxSpeed = 2500;
 	}

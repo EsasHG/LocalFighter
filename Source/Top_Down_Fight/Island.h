@@ -17,10 +17,33 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION(BlueprintCallable)
+		float GetP1Score() { return p1Score; }
+	UFUNCTION(BlueprintCallable)
+		float GetP2Score() { return p2Score; }
 	//int getOverlappingActors() { return overlapingActors; }
 private:	
 
-	int overlapingActors = 0;
+	int OverlappingActors = 0;
+
+	float p1Score=0;
+	float p2Score=0;
+
+	int p1Overlaps = 0;
+	int p2Overlaps = 0;
+
+	void AddP1Score() { p1Score += 0.1; };
+	void AddP2Score() { p2Score += 0.1; };
+
+	FTimerHandle TH_CountP1;
+	FTimerHandle TH_CountP2;
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere = nullptr;
