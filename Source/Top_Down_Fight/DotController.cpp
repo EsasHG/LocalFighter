@@ -18,7 +18,7 @@ void ADotController::Tick(float DeltaTime)
 	if(AIPawn)
 	{ 
 		FVector DirVec = FVector(0.f) - AIPawn->GetActorLocation();
-		FVector ShootDir = (Player->GetActorLocation() + FMath::RandRange(-200,200))- AIPawn->GetActorLocation();
+		FVector ShootDir = (Player->GetActorLocation() + FMath::RandRange(-500,500))- AIPawn->GetActorLocation();
 		
 		
 		AIPawn->GetInputUp(DirVec.X);

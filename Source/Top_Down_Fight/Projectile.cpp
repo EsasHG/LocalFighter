@@ -14,7 +14,7 @@ AProjectile::AProjectile()
 	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>("Sprite");
 	RootComponent = Sprite;
 
-	InitialLifeSpan = 1.f;
+	InitialLifeSpan = 0.2f;
 }
 
 // Called when the game starts or when spawned

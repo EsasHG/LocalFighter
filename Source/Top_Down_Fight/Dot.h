@@ -43,6 +43,8 @@ public:
 	class UPaperSpriteComponent* Sprite = nullptr;
 	bool bHasRun = false;
 
+	UPROPERTY(EditAnywhere)
+	float ShootRate{ 0.1 };
 private:
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere = nullptr;
@@ -76,9 +78,6 @@ private:
 	FVector2D Direction{ 0.f, 0.f };
 	FVector2D ShootDirection{ 1.f, 0.f };
 	FVector2D AimDirection{ 0.f, 0.f };
-
-	UPROPERTY(EditDefaultsOnly)
-	float ShootRate{ 0.1 };
 
 	float WinCounter{ 0 };
 

@@ -7,6 +7,7 @@
 
 #include "Engine/World.h"
 #include "Public/TimerManager.h"
+#include "DotController.h"
 #include "Dot.h"
 
 
@@ -56,7 +57,7 @@ void AIsland::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 		UE_LOG(LogTemp, Warning, TEXT("P1 found! Value: %f"), p1Score)
 	}
 	//player 2
-	else if (id == 1 )
+	else if (player)
 	{
 		p2Overlaps = 1;
 
@@ -98,7 +99,7 @@ void AIsland::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherA
 		}
 
 	}
-	else if (id == 1)
+	else if (player)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(TH_CountP2);
 		p2Overlaps = 0;
