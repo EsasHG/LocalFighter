@@ -19,6 +19,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void GetInputUp(float Value);
+	void GetInputRight(float Value);
+	void ShootUp(float Value);
+	void ShootRight(float Value);
+	void ShootPressed();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class UMovementComp* MovementComponent = nullptr;
 
@@ -58,12 +64,9 @@ private:
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	void GetInputUp(float Value);
-	void GetInputRight(float Value);
-	void ShootUp(float Value);
-	void ShootRight(float Value);
+
 	void Shoot(FVector Scale = FVector(1));
-	void ShootPressed();
+
 	void ChargeShot();
 	void StopCharge();
 	void StartCounting() { WinCounter += 0.1; }
